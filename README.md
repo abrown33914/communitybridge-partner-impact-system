@@ -52,6 +52,7 @@ community-bridge-partner-impact-system/
 | ├── database/
 │ | ├── Database Design Overview.pdf
 │ | └── DatabaseDiagram.png
+| |
 | └── community-bridge/
 |   └── FGCU SYSTEM DEVELOPMENT.xlsx
 │
