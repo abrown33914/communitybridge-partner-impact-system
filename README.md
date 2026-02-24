@@ -49,8 +49,11 @@ Below is the current database relationship diagram:
 community-bridge-partner-impact-system/
 │
 ├── docs/
-│ ├── Database Design Overview.pdf
-│ └── DatabaseDiagram.png
+| ├── database/
+│ | ├── Database Design Overview.pdf
+│ | └── DatabaseDiagram.png
+| └── community-bridge/
+|   └── FGCU SYSTEM DEVELOPMENT.xlsx
 │
 ├── database/
 │ ├── DDL.sql
