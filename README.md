@@ -45,6 +45,7 @@ Below is the current database relationship diagram:
 
 ## 📂 Project Structure
 
+```
 community-bridge-partner-impact-system/
 │
 ├── docs/
@@ -58,7 +59,7 @@ community-bridge-partner-impact-system/
 ├── backend/
 ├── frontend/
 └── README.md
-
+```
 
 ---
 
