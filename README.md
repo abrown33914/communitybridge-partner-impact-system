@@ -39,7 +39,7 @@ Frontend and backend development are not included at this stage.
 
 Below is the current database relationship diagram:
 
-![Database Diagram](docs/DatabaseDiagram.png)
+![Database Diagram](docs/database/DatabaseDiagram.png)
 
 ---
 
