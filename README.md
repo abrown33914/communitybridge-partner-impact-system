@@ -58,7 +58,8 @@ community-bridge-partner-impact-system/
 │
 ├── database/
 │ ├── DDL.sql
-│ └── Data.sql
+│ ├── data.sql
+│ └── queries.sql
 │ 
 ├── backend/
 ├── frontend/
