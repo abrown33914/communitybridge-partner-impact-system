@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Bridge — Partner Impact System</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0b1f3a;--navy2:#1a3560;--navy3:#2a5280;
+  --gold:#c9933a;--goldL:#e8b35a;--goldP:#fdf2e0;
+  --teal:#1a7a6e;--tealL:#e0f5f2;
+  --coral:#c4452e;--coralL:#fbeee9;
+  --green:#2d7a3a;--greenL:#e4f5e7;
+  --cream:#f7f5f0;--s1:#fff;--s2:#f3f1ec;--s3:#eae8e2;
+  --t1:#0b1f3a;--t2:#3d5068;--t3:#7a8fa6;--t4:#b0bfcc;
+  --b1:rgba(11,31,58,.08);--b2:rgba(11,31,58,.14);--b3:rgba(11,31,58,.22);
+  --r:10px;--r2:14px;
+}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--cream);color:var(--t1);font-size:14px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+.topbar{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:56px;position:sticky;top:0;z-index:100;border-bottom:2px solid rgba(201,147,58,.5)}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.bicon{width:30px;height:30px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--navy)}
+.bname{font-size:13px;font-weight:700;color:#fff}
+.bsub{font-size:9px;color:var(--goldL);letter-spacing:.09em;text-transform:uppercase}
+.nav-pills{display:flex;gap:2px}
+.nav-pill{padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .15s}
+.nav-pill:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-pill.active{color:var(--goldL);background:rgba(201,147,58,.15)}
+.swfl{font-size:9px;font-weight:700;color:var(--gold);background:rgba(201,147,58,.12);border:1px solid rgba(201,147,58,.3);padding:3px 8px;border-radius:4px;letter-spacing:.07em;text-transform:uppercase}
+
+/* HERO */
+.hero{background:var(--navy);padding:28px 22px 0;border-bottom:1px solid rgba(201,147,58,.2)}
+.hero-inner{max-width:1280px;margin:0 auto}
+.hero-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+.htitle{font-size:26px;font-weight:300;color:#fff;line-height:1.15;font-style:italic;letter-spacing:-.01em}
+.htitle strong{font-weight:700;color:var(--goldL);font-style:normal}
+.hsub{font-size:11px;color:rgba(255,255,255,.42);margin-top:6px;font-weight:400;letter-spacing:.02em}
+.hmeta{text-align:right;font-size:10px;color:rgba(255,255,255,.32);line-height:1.7;letter-spacing:.04em}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.05);border-radius:8px 8px 0 0;overflow:hidden}
+.kpi-cell{padding:18px 20px;border-right:1px solid rgba(255,255,255,.05);transition:background .15s;cursor:default}
+.kpi-cell:last-child{border-right:none}
+.kpi-cell:hover{background:rgba(255,255,255,.04)}
+.klabel{font-size:9px;color:rgba(255,255,255,.42);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.kvalue{font-size:28px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.01em}
+.kvalue.gold{color:var(--goldL)}
+.kunit{font-size:9px;color:rgba(255,255,255,.25);margin-top:2px}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+.main{max-width:1280px;margin:0 auto;padding:24px 22px 48px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gfull{grid-column:1/-1}
+
+/* CARDS */
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(11,31,58,.07)}
+.ch{padding:13px 16px 11px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ct{font-size:12px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px}
+.cdot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.cb{padding:15px 16px}
+.cb0{padding:0}
+
+/* BADGES */
+.badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.04em;text-transform:uppercase;display:inline-block;white-space:nowrap}
+.bg{background:var(--goldP);color:#7a3f00;border:1px solid rgba(201,147,58,.25)}
+.bt{background:var(--tealL);color:#0a4040;border:1px solid rgba(26,122,110,.25)}
+.bn{background:#eaeff6;color:var(--navy);border:1px solid rgba(11,31,58,.14)}
+.bc{background:var(--coralL);color:#7a1a0a;border:1px solid rgba(196,69,46,.2)}
+
+/* PILLS */
+.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.pg{background:var(--goldP);color:#7a3f00}
+.pt{background:var(--tealL);color:#0a4040}
+.pn{background:#eaeff6;color:var(--navy)}
+.pc{background:var(--coralL);color:#7a1a0a}
+.pgr{background:var(--greenL);color:#1a4020}
+
+/* STAT CARDS */
+.scard{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px;box-shadow:0 1px 2px rgba(11,31,58,.05);transition:all .15s}
+.scard:hover{box-shadow:0 4px 14px rgba(11,31,58,.1);transform:translateY(-1px)}
+.slabel{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.svalue{font-size:26px;font-weight:700;color:var(--t1);line-height:1}
+.svalue.gold{color:var(--gold)}
+.svalue.teal{color:var(--teal)}
+.sunit{font-size:10px;color:var(--t4);margin-top:3px}
+
+/* TABLES */
+.dtable{width:100%;border-collapse:collapse}
+.dtable th{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;padding:0 13px 10px;text-align:left;border-bottom:1px solid var(--b2);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s}
+.dtable th:hover{color:var(--t1)}
+.dtable th.sorted{color:var(--navy)}
+.dtable td{padding:9px 13px;font-size:12px;border-bottom:1px solid var(--b1);color:var(--t1);vertical-align:middle}
+.dtable tr:last-child td{border-bottom:none}
+.dtable tbody tr{cursor:pointer;transition:background .12s}
+.dtable tbody tr:hover td{background:var(--s2)}
+.si{margin-left:3px;opacity:.4;font-style:normal;font-size:10px}
+
+/* CONTROLS */
+.crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.swrap{position:relative;flex:1;min-width:160px}
+.sico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t4);font-size:12px;pointer-events:none}
+.sinput{width:100%;padding:7px 9px 7px 30px;border:1px solid var(--b2);border-radius:6px;font-size:12px;font-family:inherit;color:var(--t1);background:var(--s2);outline:none;transition:all .15s}
+.sinput:focus{border-color:var(--gold);background:var(--s1);box-shadow:0 0 0 3px rgba(201,147,58,.08)}
+.fsel{padding:7px 9px;border:1px solid var(--b2);border-radius:6px;font-size:12px;font-family:inherit;color:var(--t2);background:var(--s2);outline:none;cursor:pointer;transition:all .15s}
+.fsel:focus{border-color:var(--gold);background:var(--s1)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:6px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.bprimary{background:var(--navy);color:#fff}.bprimary:hover{background:var(--navy2)}
+.bgold{background:var(--gold);color:var(--navy)}.bgold:hover{background:var(--goldL)}
+.bghost{background:transparent;border:1px solid var(--b2);color:var(--t2)}.bghost:hover{background:var(--s2)}
+.bsm{padding:5px 10px;font-size:11px}
+.bai{background:rgba(201,147,58,.12);border:1px solid rgba(201,147,58,.32);color:var(--goldL);font-family:inherit}.bai:hover{background:rgba(201,147,58,.2)}.bai:disabled{opacity:.4;cursor:not-allowed}
+
+/* RANK */
+.rank{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.r1{background:var(--goldP);color:#7a3f00}.r2{background:#eaeff6;color:var(--navy)}.r3{background:var(--coralL);color:#7a1a0a}.rn{background:var(--s2);color:var(--t3)}
+
+/* PAGINATION */
+.pag{display:flex;align-items:center;gap:5px;padding:11px 16px;border-top:1px solid var(--b1);flex-wrap:wrap}
+.pbtn{width:28px;height:28px;border-radius:4px;border:1px solid var(--b2);background:var(--s1);color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
+.pbtn:hover:not(:disabled){background:var(--s2)}
+.pbtn.cur{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pbtn:disabled{opacity:.3;cursor:not-allowed}
+.pinfo{font-size:10px;color:var(--t3);margin-left:auto}
+
+/* AI PANEL */
+.aipanel{background:var(--navy);border-radius:var(--r);padding:16px 20px;position:relative;overflow:hidden;margin-bottom:16px}
+.aipanel::after{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:radial-gradient(circle,rgba(201,147,58,.12) 0%,transparent 70%);pointer-events:none}
+.ailabel{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.aidot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.aiout{font-size:13px;color:rgba(255,255,255,.78);line-height:1.75;font-weight:400;min-height:48px}
+.aiout strong{color:var(--goldL);font-weight:700}
+.aiacts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* BARS */
+.barwrap{display:flex;align-items:center;gap:8px}
+.bartrack{flex:1;max-width:120px;height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.barfill{height:100%;border-radius:3px;background:var(--gold)}
+.cityrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .12s;border-radius:4px;padding-left:4px;padding-right:4px}
+.cityrow:last-child{border-bottom:none}
+.cityrow:hover{background:var(--s2)}
+.cname{font-size:12px;font-weight:700;color:var(--t1);min-width:115px}
+.ctrack{flex:1;height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
+.cfill{height:100%;border-radius:3px;background:var(--navy)}
+.cval{font-size:11px;font-weight:700;color:var(--t1);min-width:68px;text-align:right}
+.cpart{font-size:9px;color:var(--t3);min-width:44px;text-align:right}
+
+/* AREA BARS */
+.arearow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b1)}
+.arearow:last-child{border-bottom:none}
+.aname{font-size:12px;font-weight:700;min-width:110px}
+.atrack{flex:1;height:8px;background:var(--s3);border-radius:4px;overflow:hidden}
+.afill{height:100%;border-radius:4px}
+.acount{font-size:13px;font-weight:700;min-width:32px;text-align:right}
+.aval{font-size:10px;color:var(--t3);min-width:78px;text-align:right}
+
+/* LEGEND */
+.legrid{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px}
+.legitem{display:flex;align-items:center;gap:6px;font-size:11px}
+.leswatch{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.lelabel{color:var(--t2);flex:1}
+.leval{font-weight:700;color:var(--t1)}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(11,31,58,.5);z-index:300;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--s1);border-radius:var(--r2);box-shadow:0 16px 50px rgba(11,31,58,.2);width:100%;max-width:620px;max-height:88vh;overflow-y:auto;animation:mIn .18s ease}
+@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.mhead{padding:18px 20px 14px;border-bottom:1px solid var(--b1);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:var(--s1);z-index:1}
+.mbody{padding:18px 20px}
+.mclose{width:28px;height:28px;border-radius:50%;border:none;background:var(--s2);cursor:pointer;font-size:16px;color:var(--t3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.mclose:hover{background:var(--s3);color:var(--t1)}
+.mavatar{width:48px;height:48px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--goldL);flex-shrink:0}
+.drow{display:flex;gap:6px;padding:7px 0;border-bottom:1px solid var(--b1);align-items:flex-start}
+.drow:last-child{border-bottom:none}
+.dkey{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;min-width:108px;padding-top:1px}
+.dval{font-size:12px;color:var(--t1);flex:1}
+
+/* QUERY ACCORDION */
+.qcard{border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;margin-bottom:10px;transition:border-color .15s}
+.qcard:hover{border-color:rgba(201,147,58,.4)}
+.qhead{padding:12px 15px;background:var(--s2);display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:10px}
+.qtitle{font-size:12px;font-weight:700;color:var(--t1)}
+.qsub{font-size:11px;color:var(--t3);margin-top:2px}
+.qbody{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.qbody.open{max-height:700px}
+.qinner{padding:14px 15px}
+.code{background:#0f2035;border-radius:6px;padding:13px 15px;font-family:'Courier New',monospace;font-size:11px;color:#b8d4ee;white-space:pre;overflow-x:auto;line-height:1.7;margin:10px 0;tab-size:2}
+.kw{color:#7ab8e8}.fn{color:#e8c97a}.str{color:#a8e8a8}.cm{color:#5a8a6a}
+
+/* CANVAS CHARTS */
+canvas{display:block}
+.nodata{text-align:center;padding:40px 20px;color:var(--t3);font-size:13px}
+
+/* SCHEMA GRID */
+.schema-item{background:var(--s2);border-radius:8px;padding:12px;border:1px solid var(--b1)}
+.schema-name{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px;font-family:'Courier New',monospace}
+.schema-cols{font-size:10px;color:var(--t3);line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;border:1px solid rgba(201,147,58,.4);border-radius:var(--r);padding:11px 16px;font-size:12px;font-weight:600;box-shadow:0 8px 30px rgba(11,31,58,.2);z-index:500;display:flex;align-items:center;gap:7px;animation:tIn .2s ease}
+@keyframes tIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:44px 20px;color:var(--t3)}
+.eico{font-size:32px;margin-bottom:10px;opacity:.4}
+.etitle{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:3px}
+.esub{font-size:12px}
+
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}.gfull{grid-column:1}.kpi-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.main{padding:14px 14px 30px}.topbar{padding:0 14px}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="brand" onclick="nav('dashboard')">
+    <div class="bicon">CB</div>
+    <div><div class="bname">Community Bridge</div><div class="bsub">Partner Impact System</div></div>
+  </div>
+  <div class="nav-pills">
+    <button class="nav-pill active" data-page="dashboard" onclick="nav('dashboard')">Dashboard</button>
+    <button class="nav-pill" data-page="partners" onclick="nav('partners')">Partners</button>
+    <button class="nav-pill" data-page="services" onclick="nav('services')">Services</button>
+    <button class="nav-pill" data-page="reports" onclick="nav('reports')">Reports</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="htitle">Partner <strong>Impact</strong> Dashboard</div>
+        <div class="hsub">Community Bridge of SWFL · Veteran support network</div>
+      </div>
+    </div>
+    <div class="kpi-strip">
+      <div class="kpi-cell"><div class="klabel">Partner Orgs</div><div class="kvalue gold" id="kpi-partners">—</div><div class="kunit">SWFL region</div></div>
+      <div class="kpi-cell"><div class="klabel">Contacts</div><div class="kvalue" id="kpi-contacts">—</div><div class="kunit">on record</div></div>
+      <div class="kpi-cell"><div class="klabel">Service Records</div><div class="kvalue" id="kpi-services">—</div><div class="kunit">impact entries</div></div>
+      <div class="kpi-cell"><div class="klabel">Total Est. Value</div><div class="kvalue gold" id="kpi-value">—</div><div class="kunit">all services</div></div>
+      <div class="kpi-cell"><div class="klabel">Cities</div><div class="kvalue" id="kpi-cities">—</div><div class="kunit">metro areas</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD PAGE ══ -->
+<div class="page active" id="page-dashboard">
+  <div class="main">
+    <div class="g3" style="margin-bottom:16px">
+      <div class="scard"><div class="slabel">Avg Service Value</div><div class="svalue gold" id="s-avg">—</div><div class="sunit">per service record</div></div>
+      <div class="scard"><div class="slabel">Partners · No Services Yet</div><div class="svalue" id="s-nosvcs">—</div><div class="sunit">activation opportunity</div></div>
+      <div class="scard"><div class="slabel">Uncategorized Services</div><div class="svalue" id="s-uncat">—</div><div class="sunit">need category tags</div></div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cdot"></div>Service Value by City</div><span class="badge bg">Interactive</span></div>
+        <div class="cb"><canvas id="cityCanvas" height="220" style="width:100%"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cdot"></div>Services by Category</div><span class="badge bt" id="catBadge">—</span></div>
+        <div class="cb">
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+            <canvas id="donutCanvas" width="170" height="170" style="flex-shrink:0"></canvas>
+            <div class="legrid" id="catLegend" style="flex:1;min-width:140px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-top:16px">
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cdot"></div>Monthly Service Trend</div><span class="badge bn">2025–2026</span></div>
+        <div class="cb"><canvas id="trendCanvas" height="190" style="width:100%"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="cdot"></div>Impact Support Areas</div><span class="badge bn">3 Areas</span></div>
+        <div class="cb"><div id="areaBars"></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="ch"><div class="ct"><div class="cdot"></div>City Breakdown</div><div style="display:flex;gap:8px"><span class="badge bg">Interactive</span><button class="btn bghost bsm" onclick="exportCSV('partners')">↓ Export</button></div></div>
+      <div class="cb"><div id="cityBars"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PARTNERS PAGE ══ -->
+<div class="page" id="page-partners">
+  <div class="main">
+    <div class="card" style="margin-bottom:14px">
+      <div class="cb" style="padding:12px 15px">
+        <div class="crow">
+          <div class="swrap"><span class="sico">⌕</span><input class="sinput" id="pSearch" type="text" placeholder="Search partners, cities, categories…" oninput="pState.search=this.value;pState.pg=1;renderPartners()"></div>
+          <select class="fsel" id="pCity" onchange="pState.city=this.value;pState.pg=1;renderPartners()"><option value="">All cities</option></select>
+          <select class="fsel" id="pArea" onchange="pState.area=this.value;pState.pg=1;renderPartners()"><option value="">All areas</option></select>
+          <button class="btn bghost bsm" onclick="clearPFilters()">Clear</button>
+          <button class="btn bprimary bsm" onclick="exportCSV('partners')">↓ CSV</button>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:9px;font-size:11px;color:var(--t3)">
+          <span><strong id="pCnt" style="color:var(--t1)">—</strong> partners</span>
+          <span>Total: <strong id="pTotVal" style="color:var(--t1)">—</strong></span>
+          <span style="margin-left:auto;color:var(--t4);font-size:10px">Click row for details</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cb0">
+        <table class="dtable" id="ptable">
+          <thead><tr>
+            <th style="width:42px;padding-left:16px">#</th>
+            <th data-col="org" onclick="pSort('org')">Organization<i class="si">↕</i></th>
+            <th data-col="city" onclick="pSort('city')">City<i class="si">↕</i></th>
+            <th>Categories</th>
+            <th>Support Areas</th>
+            <th data-col="services" onclick="pSort('services')" style="text-align:center">Svcs<i class="si">↕</i></th>
+            <th data-col="value" onclick="pSort('value')" style="text-align:right;padding-right:16px" class="sorted">Total Value<i class="si">↓</i></th>
+          </tr></thead>
+          <tbody id="pTbody"></tbody>
+        </table>
+        <div id="pPag" class="pag"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICES PAGE ══ -->
+<div class="page" id="page-services">
+  <div class="main">
+    <div class="card" style="margin-bottom:14px">
+      <div class="ch"><div class="ct"><div class="cdot"></div>Value by Category</div><span class="badge bg">Avg (gold) · Total (navy)</span></div>
+      <div class="cb"><canvas id="catValCanvas" height="190" style="width:100%"></canvas></div>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="cb" style="padding:12px 15px">
+        <div class="crow">
+          <div class="swrap"><span class="sico">⌕</span><input class="sinput" id="sSearch" type="text" placeholder="Search services, partners, descriptions…" oninput="sState.search=this.value;sState.pg=1;renderServices()"></div>
+          <select class="fsel" id="sCity" onchange="sState.city=this.value;sState.pg=1;renderServices()"><option value="">All cities</option></select>
+          <select class="fsel" id="sCat" onchange="sState.cat=this.value;sState.pg=1;renderServices()"><option value="">All categories</option></select>
+          <button class="btn bghost bsm" onclick="clearSFilters()">Clear</button>
+          <button class="btn bprimary bsm" onclick="exportCSV('services')">↓ CSV</button>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:9px;font-size:11px;color:var(--t3)">
+          <span><strong id="sCnt" style="color:var(--t1)">—</strong> records</span>
+          <span>Value: <strong id="sTotVal" style="color:var(--t1)">—</strong></span>
+          <span>Qty: <strong id="sTotQty" style="color:var(--t1)">—</strong></span>
+          <span style="margin-left:auto;color:var(--t4);font-size:10px">Click a row to view partners</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cb0">
+        <table class="dtable" id="stable">
+          <thead><tr>
+            <th style="width:40px;padding-left:16px">ID</th>
+            <th>Description</th>
+            <th data-col="org" onclick="sSort('org')">Partner<i class="si">↕</i></th>
+            <th>City</th>
+            <th>Category</th>
+            <th data-col="qty" onclick="sSort('qty')">Qty<i class="si">↕</i></th>
+            <th data-col="date" onclick="sSort('date')" class="sorted">Date<i class="si">↓</i></th>
+            <th data-col="value" onclick="sSort('value')" style="text-align:right;padding-right:16px">Value<i class="si">↕</i></th>
+          </tr></thead>
+          <tbody id="sTbody"></tbody>
+        </table>
+        <div id="sPag" class="pag"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REPORTS PAGE ══ -->
+<div class="page" id="page-reports">
+  <div class="main">
+    <div class="aipanel">
+      <div class="ailabel"><div class="aidot"></div>Network Analysis</div>
+      <div class="aiout" id="aiOutR">Generate a strategic summary highlighting partner-impact trends, activation opportunities, and regional priorities.</div>
+      <div class="aiacts"><button class="btn bai" id="aiBtnR" onclick="genAI('r')">✦ Generate Summary</button></div>
+    </div>
+    <div style="font-size:20px;font-weight:700;color:var(--t1);margin-bottom:8px;letter-spacing:-.01em">Reports &amp; <span style="color:var(--gold)">Analytics</span></div>
+    <div style="font-size:13px;color:var(--t3);margin-bottom:22px;line-height:1.6">Click any report to view methodology and live results from the partner network data.</div>
+    <div id="queryList"></div>
+    <div class="card" style="margin-top:14px">
+      <div class="ch"><div class="ct"><div class="cdot"></div>Data Model</div><span class="badge bn">8 Tables</span></div>
+      <div class="cb"><div class="g4" id="schemaGrid"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const PARTNERS = [
+  {id:1,org:'Community Partner 1',city:'Fort Myers',zip:'33901',phone:'(239)555-0101',addr:'101 Main St'},
+  {id:2,org:'Community Partner 2',city:'Cape Coral',zip:'33904',phone:'(239)555-0102',addr:'202 Pine Ave'},
+  {id:3,org:'Community Partner 3',city:'Naples',zip:'34102',phone:'(239)555-0103',addr:'303 Oak Dr'},
+  {id:4,org:'Community Partner 4',city:'Bonita Springs',zip:'34135',phone:'(239)555-0104',addr:'404 Elm Blvd'},
+  {id:5,org:'Community Partner 5',city:'Estero',zip:'33928',phone:'(239)555-0105',addr:'505 Cedar Ln'},
+  {id:6,org:'Community Partner 6',city:'Lehigh Acres',zip:'33936',phone:'(239)555-0106',addr:'606 Maple Rd'},
+  {id:7,org:'Community Partner 7',city:'Punta Gorda',zip:'33950',phone:'(239)555-0107',addr:'707 Birch Way'},
+  {id:8,org:'Community Partner 8',city:'Port Charlotte',zip:'33948',phone:'(239)555-0108',addr:'808 Willow Ct'},
+  {id:9,org:'Community Partner 9',city:'Sarasota',zip:'34230',phone:'(941)555-0109',addr:'909 Ash Ave'},
+  {id:10,org:'Community Partner 10',city:'Cape Coral',zip:'33905',phone:'(239)555-0110',addr:'1010 Palm Dr'},
+  {id:11,org:'Community Partner 11',city:'Fort Myers',zip:'33901',phone:'(239)555-0111',addr:'111 Sunset Blvd'},
+  {id:12,org:'Community Partner 12',city:'Naples',zip:'34103',phone:'(239)555-0112',addr:'1212 Bay Rd'},
+  {id:13,org:'Community Partner 13',city:'Fort Myers',zip:'33912',phone:'(239)555-0113',addr:'1313 Gulf Dr'},
+  {id:14,org:'Community Partner 14',city:'Bonita Springs',zip:'34134',phone:'(239)555-0114',addr:'1414 Shore Ln'},
+  {id:15,org:'Community Partner 15',city:'North Port',zip:'34286',phone:'(941)555-0115',addr:'1515 River Rd'},
+  {id:16,org:'Community Partner 16',city:'Cape Coral',zip:'33991',phone:'(239)555-0116',addr:'1616 Harbor Dr'},
+  {id:17,org:'Community Partner 17',city:'Fort Myers',zip:'33901',phone:'(239)555-0117',addr:'1717 Colonial Blvd'},
+  {id:18,org:'Community Partner 18',city:'Sarasota',zip:'34231',phone:'(941)555-0118',addr:'1818 Tamiami Trl'},
+  {id:19,org:'Community Partner 19',city:'Naples',zip:'34104',phone:'(239)555-0119',addr:'1919 Airport Rd'},
+  {id:20,org:'Community Partner 20',city:'Lehigh Acres',zip:'33971',phone:'(239)555-0120',addr:'2020 Lee Blvd'},
+  {id:21,org:'Community Partner 21',city:'Punta Gorda',zip:'33982',phone:'(239)555-0121',addr:'2121 US-41'},
+  {id:22,org:'Community Partner 22',city:'Fort Myers',zip:'33908',phone:'(239)555-0122',addr:'2222 Daniels Pkwy'},
+  {id:23,org:'Community Partner 23',city:'Cape Coral',zip:'33993',phone:'(239)555-0123',addr:'2323 Del Prado Blvd'},
+  {id:24,org:'Community Partner 24',city:'Bonita Springs',zip:'34133',phone:'(239)555-0124',addr:'2424 Old 41 Rd'},
+  {id:25,org:'Community Partner 25',city:'Naples',zip:'34108',phone:'(239)555-0125',addr:'2525 Vanderbilt Rd'},
+  {id:26,org:'Community Partner 26',city:'Estero',zip:'33967',phone:'(239)555-0126',addr:'2626 Corkscrew Rd'},
+  {id:27,org:'Community Partner 27',city:'Port Charlotte',zip:'33952',phone:'(239)555-0127',addr:'2727 Harbor Blvd'},
+  {id:28,org:'Community Partner 28',city:'Sarasota',zip:'34232',phone:'(941)555-0128',addr:'2828 Fruitville Rd'},
+  {id:29,org:'Community Partner 29',city:'Fort Myers',zip:'33919',phone:'(239)555-0129',addr:'2929 McGregor Blvd'},
+  {id:30,org:'Community Partner 30',city:'North Port',zip:'34287',phone:'(941)555-0130',addr:'3030 US-41'},
+  {id:31,org:'Community Partner 31',city:'Fort Myers',zip:'33907',phone:'(239)555-0131',addr:'3131 Six Mile Cypress'},
+  {id:32,org:'Community Partner 32',city:'Cape Coral',zip:'33909',phone:'(239)555-0132',addr:'3232 Pine Island Rd'},
+  {id:33,org:'Community Partner 33',city:'Naples',zip:'34109',phone:'(239)555-0133',addr:'3333 Immokalee Rd'},
+  {id:34,org:'Community Partner 34',city:'Bonita Springs',zip:'34136',phone:'(239)555-0134',addr:'3434 Bonita Beach Rd'},
+  {id:35,org:'Community Partner 35',city:'Lehigh Acres',zip:'33972',phone:'(239)555-0135',addr:'3535 Gunnery Rd'},
+  {id:36,org:'Community Partner 36',city:'Punta Gorda',zip:'33983',phone:'(239)555-0136',addr:'3636 Kings Hwy'},
+  {id:37,org:'Community Partner 37',city:'Port Charlotte',zip:'33953',phone:'(239)555-0137',addr:'3737 Cochran Blvd'},
+  {id:38,org:'Community Partner 38',city:'Sarasota',zip:'34233',phone:'(941)555-0138',addr:'3838 Bee Ridge Rd'},
+  {id:39,org:'Community Partner 39',city:'Fort Myers',zip:'33916',phone:'(239)555-0139',addr:'3939 Palm Beach Blvd'},
+  {id:40,org:'Community Partner 40',city:'Cape Coral',zip:'33914',phone:'(239)555-0140',addr:'4040 Cape Coral Pkwy'},
+  {id:41,org:'Community Partner 41',city:'Naples',zip:'34110',phone:'(239)555-0141',addr:'4141 Tamiami Trl N'},
+  {id:42,org:'Community Partner 42',city:'North Port',zip:'34288',phone:'(941)555-0142',addr:'4242 Price Blvd'},
+  {id:43,org:'Community Partner 43',city:'Naples',zip:'34112',phone:'(239)555-0143',addr:'4343 Davis Blvd'},
+  {id:44,org:'Community Partner 44',city:'Bonita Springs',zip:'34135',phone:'(239)555-0144',addr:'4444 Coconut Rd'},
+  {id:45,org:'Community Partner 45',city:'Estero',zip:'33928',phone:'(239)555-0145',addr:'4545 Three Oaks Pkwy'},
+  {id:46,org:'Community Partner 46',city:'Lehigh Acres',zip:'33973',phone:'(239)555-0146',addr:'4646 Homestead Rd'},
+  {id:47,org:'Community Partner 47',city:'Punta Gorda',zip:'33980',phone:'(239)555-0147',addr:'4747 Taylor Rd'},
+  {id:48,org:'Community Partner 48',city:'Port Charlotte',zip:'33954',phone:'(239)555-0148',addr:'4848 Veterans Blvd'},
+  {id:49,org:'Community Partner 49',city:'Sarasota',zip:'34234',phone:'(941)555-0149',addr:'4949 17th St'},
+  {id:50,org:'Community Partner 50',city:'Fort Myers',zip:'33901',phone:'(239)555-0150',addr:'5050 Cleveland Ave'},
+  {id:58,org:'Community Partner 58',city:'Port Charlotte',zip:'33948',phone:'(239)555-0158',addr:'5858 Harbor Blvd'},
+  {id:86,org:'Community Partner 86',city:'Naples',zip:'34103',phone:'(239)555-0186',addr:'8686 Tamiami Trl'},
+  {id:109,org:'Community Partner 109',city:'Sarasota',zip:'34230',phone:'(941)555-0209',addr:'1090 Main St'},
+  {id:140,org:'Community Partner 140',city:'Naples',zip:'34104',phone:'(239)555-0240',addr:'1400 Airport Rd'},
+];
+
+const CONTACTS = [
+  {id:1,pid:1,first:'Alex',last:'Rivera',title:'Director',pos:'Executive Director',mobile:'(239)555-1001',email:'a.rivera@cp1.org'},
+  {id:2,pid:2,first:'Jordan',last:'Smith',title:'Manager',pos:'Program Manager',mobile:'(239)555-1002',email:'j.smith@cp2.org'},
+  {id:3,pid:3,first:'Morgan',last:'Lee',title:'Coordinator',pos:'Service Coordinator',mobile:'(239)555-1003',email:'m.lee@cp3.org'},
+  {id:4,pid:4,first:'Casey',last:'Brown',title:'Director',pos:'Executive Director',mobile:'(239)555-1004',email:'c.brown@cp4.org'},
+  {id:5,pid:5,first:'Taylor',last:'Davis',title:'Specialist',pos:'Outreach Specialist',mobile:'(239)555-1005',email:'t.davis@cp5.org'},
+  {id:6,pid:6,first:'Drew',last:'Wilson',title:'Manager',pos:'Case Manager',mobile:'(239)555-1006',email:'d.wilson@cp6.org'},
+  {id:7,pid:7,first:'Avery',last:'Martinez',title:'Coordinator',pos:'Program Coordinator',mobile:'(239)555-1007',email:'a.martinez@cp7.org'},
+  {id:8,pid:8,first:'Quinn',last:'Anderson',title:'Director',pos:'Operations Director',mobile:'(239)555-1008',email:'q.anderson@cp8.org'},
+  {id:9,pid:9,first:'Reece',last:'Thomas',title:'Specialist',pos:'Benefits Specialist',mobile:'(941)555-1009',email:'r.thomas@cp9.org'},
+  {id:10,pid:10,first:'Sage',last:'Jackson',title:'Manager',pos:'Office Manager',mobile:'(239)555-1010',email:'s.jackson@cp10.org'},
+  {id:11,pid:11,first:'Blair',last:'White',title:'Director',pos:'Executive Director',mobile:'(239)555-1011',email:'b.white@cp11.org'},
+  {id:12,pid:12,first:'Finley',last:'Harris',title:'Coordinator',pos:'Service Coordinator',mobile:'(239)555-1012',email:'f.harris@cp12.org'},
+  {id:13,pid:13,first:'Rowan',last:'Martin',title:'Manager',pos:'Program Manager',mobile:'(239)555-1013',email:'r.martin@cp13.org'},
+  {id:14,pid:14,first:'Skyler',last:'Garcia',title:'Director',pos:'Executive Director',mobile:'(239)555-1014',email:'s.garcia@cp14.org'},
+  {id:15,pid:15,first:'Emery',last:'Lopez',title:'Coordinator',pos:'Community Liaison',mobile:'(941)555-1015',email:'e.lopez@cp15.org'},
+  {id:31,pid:31,first:'Parker',last:'Clark',title:'Director',pos:'Executive Director',mobile:'(239)555-1031',email:'p.clark@cp31.org'},
+  {id:58,pid:58,first:'Dana',last:'Walker',title:'Director',pos:'Executive Director',mobile:'(239)555-1058',email:'d.walker@cp58.org'},
+  {id:86,pid:86,first:'Jamie',last:'Hall',title:'Coordinator',pos:'Outreach Coordinator',mobile:'(239)555-1086',email:'j.hall@cp86.org'},
+  {id:109,pid:109,first:'Robin',last:'Young',title:'Manager',pos:'Services Manager',mobile:'(941)555-1109',email:'r.young@cp109.org'},
+  {id:140,pid:140,first:'Casey',last:'King',title:'Specialist',pos:'Veteran Specialist',mobile:'(239)555-1140',email:'c.king@cp140.org'},
+];
+
+const CATS = [
+  {id:1,name:'Daily Living Skills'},{id:2,name:'Physical Abilities'},
+  {id:3,name:'Medical Needs'},{id:4,name:'Social Support'},
+  {id:5,name:'Safety Considerations'},{id:6,name:'Employment & Job Readiness'},
+  {id:7,name:'Financial Assistance'},{id:8,name:'Mental Health Support'},
+];
+
+const AREAS = [{id:1,name:'Functioning'},{id:2,name:'Enjoying Life'},{id:3,name:'Connecting'}];
+
+const SERVICES = [
+  {id:1,pid:1,cid:1,desc:'Counseling session support',qty:5,unit:'sessions',val:4035.83,date:'2025-11-12'},
+  {id:2,pid:2,cid:4,desc:'Social skills workshop',qty:12,unit:'seats',val:1820.00,date:'2025-10-05'},
+  {id:3,pid:3,cid:2,desc:'Physical therapy equipment',qty:3,unit:'units',val:2500.00,date:'2025-09-20'},
+  {id:4,pid:4,cid:5,desc:'Safety assessment home visits',qty:8,unit:'visits',val:3100.00,date:'2025-11-01'},
+  {id:5,pid:5,cid:6,desc:'Job readiness workshop seats',qty:15,unit:'seats',val:1500.00,date:'2025-10-15'},
+  {id:6,pid:6,cid:5,desc:'Emergency safety kits',qty:20,unit:'kits',val:2200.00,date:'2025-08-30'},
+  {id:7,pid:7,cid:4,desc:'Community social events',qty:4,unit:'events',val:900.00,date:'2025-09-10'},
+  {id:8,pid:8,cid:3,desc:'Medical transport assistance',qty:10,unit:'rides',val:1600.00,date:'2025-10-22'},
+  {id:9,pid:9,cid:1,desc:'Life skills training program',qty:6,unit:'sessions',val:2100.00,date:'2025-11-18'},
+  {id:10,pid:10,cid:1,desc:'Job readiness workshop seats',qty:8,unit:'seats',val:631.19,date:'2025-10-03'},
+  {id:11,pid:10,cid:3,desc:'Meal vouchers for veterans',qty:40,unit:'vouchers',val:1742.08,date:'2025-10-28'},
+  {id:12,pid:11,cid:2,desc:'Assistive device lending',qty:2,unit:'devices',val:6924.46,date:'2025-11-25'},
+  {id:13,pid:11,cid:3,desc:'Medical supply distribution',qty:50,unit:'kits',val:1500.00,date:'2025-09-15'},
+  {id:14,pid:12,cid:4,desc:'Peer support group sessions',qty:8,unit:'sessions',val:1200.00,date:'2025-10-10'},
+  {id:15,pid:13,cid:5,desc:'Home safety modifications',qty:5,unit:'homes',val:4500.00,date:'2025-11-05'},
+  {id:16,pid:14,cid:1,desc:'Life skills training program',qty:10,unit:'sessions',val:3500.00,date:'2025-10-20'},
+  {id:17,pid:14,cid:6,desc:'Resume writing workshops',qty:12,unit:'seats',val:4200.00,date:'2025-11-10'},
+  {id:18,pid:14,cid:4,desc:'Community networking event',qty:1,unit:'event',val:3121.43,date:'2025-12-01'},
+  {id:19,pid:15,cid:4,desc:'Support group facilitation',qty:6,unit:'sessions',val:800.00,date:'2025-09-25'},
+  {id:20,pid:16,cid:2,desc:'Adaptive sports equipment',qty:5,unit:'sets',val:2800.00,date:'2025-10-18'},
+  {id:21,pid:17,cid:3,desc:'Telehealth consultation access',qty:20,unit:'sessions',val:3000.00,date:'2025-11-20'},
+  {id:22,pid:18,cid:1,desc:'Daily living skills training',qty:8,unit:'sessions',val:1900.00,date:'2025-10-08'},
+  {id:23,pid:19,cid:5,desc:'Vehicle safety inspection aid',qty:15,unit:'autos',val:2750.00,date:'2025-09-30'},
+  {id:24,pid:20,cid:6,desc:'Employment coaching sessions',qty:10,unit:'sessions',val:2000.00,date:'2025-11-14'},
+  {id:25,pid:21,cid:4,desc:'Veterans social gathering',qty:2,unit:'events',val:1100.00,date:'2025-10-26'},
+  {id:26,pid:22,cid:3,desc:'Prescription assistance program',qty:30,unit:'fills',val:3300.00,date:'2025-11-08'},
+  {id:27,pid:23,cid:2,desc:'Fitness center memberships',qty:10,unit:'months',val:1500.00,date:'2025-10-12'},
+  {id:28,pid:24,cid:1,desc:'Grocery gift cards',qty:25,unit:'cards',val:2500.00,date:'2025-11-22'},
+  {id:29,pid:25,cid:5,desc:'Emergency shelter placement',qty:5,unit:'nights',val:3500.00,date:'2025-09-08'},
+  {id:30,pid:26,cid:6,desc:'Vocational skills training',qty:8,unit:'sessions',val:2400.00,date:'2025-10-30'},
+  {id:31,pid:27,cid:4,desc:'Caregiver support group',qty:6,unit:'sessions',val:900.00,date:'2025-11-16'},
+  {id:32,pid:28,cid:2,desc:'Occupational therapy sessions',qty:4,unit:'sessions',val:1800.00,date:'2025-10-04'},
+  {id:33,pid:29,cid:3,desc:'Dental care vouchers',qty:10,unit:'vouchers',val:2000.00,date:'2025-11-28'},
+  {id:34,pid:30,cid:1,desc:'Financial literacy workshop',qty:12,unit:'seats',val:1440.00,date:'2025-09-18'},
+  {id:35,pid:31,cid:5,desc:'Safety monitoring devices',qty:10,unit:'devices',val:1500.00,date:'2025-10-20'},
+  {id:36,pid:31,cid:3,desc:'Counseling session support',qty:5,unit:'sessions',val:3570.85,date:'2025-10-20'},
+  {id:37,pid:32,cid:2,desc:'Assistive device lending',qty:1,unit:'device',val:3499.00,date:'2026-01-15'},
+  {id:38,pid:33,cid:4,desc:'Peer mentorship program',qty:8,unit:'pairs',val:1600.00,date:'2025-10-16'},
+  {id:39,pid:34,cid:6,desc:'Job fair participation slots',qty:20,unit:'slots',val:2000.00,date:'2025-11-04'},
+  {id:40,pid:35,cid:5,desc:'Home fire safety equipment',qty:15,unit:'kits',val:1875.00,date:'2025-09-22'},
+  {id:41,pid:36,cid:4,desc:'Veterans day celebration',qty:1,unit:'event',val:1200.00,date:'2025-11-11'},
+  {id:42,pid:37,cid:3,desc:'Health screening event',qty:30,unit:'screens',val:2100.00,date:'2025-10-24'},
+  {id:43,pid:38,cid:2,desc:'Yoga and wellness classes',qty:8,unit:'sessions',val:640.00,date:'2025-11-06'},
+  {id:44,pid:39,cid:1,desc:'Budgeting skills workshop',qty:10,unit:'seats',val:1200.00,date:'2025-10-14'},
+  {id:45,pid:40,cid:5,desc:'Crisis intervention support',qty:3,unit:'cases',val:4500.00,date:'2025-11-24'},
+  {id:46,pid:41,cid:4,desc:'Community bridge events',qty:3,unit:'events',val:1500.00,date:'2025-10-06'},
+  {id:47,pid:42,cid:6,desc:'Apprenticeship placement',qty:4,unit:'placements',val:3200.00,date:'2025-09-26'},
+  {id:48,pid:44,cid:1,desc:'Cooking and nutrition classes',qty:6,unit:'sessions',val:720.00,date:'2025-11-12'},
+  {id:49,pid:45,cid:2,desc:'Sports rehabilitation session',qty:5,unit:'sessions',val:1250.00,date:'2025-10-28'},
+  {id:50,pid:50,cid:4,desc:'Mental health awareness event',qty:1,unit:'event',val:800.00,date:'2025-11-19'},
+  {id:51,pid:58,cid:2,desc:'Adaptive aquatics program',qty:12,unit:'sessions',val:5079.30,date:'2025-12-10'},
+  {id:52,pid:58,cid:1,desc:'Daily living aide services',qty:20,unit:'hours',val:2400.00,date:'2025-11-15'},
+  {id:53,pid:58,cid:5,desc:'Home modification project',qty:1,unit:'project',val:3500.00,date:'2026-01-20'},
+  {id:54,pid:58,cid:3,desc:'Medical equipment loan',qty:2,unit:'units',val:1524.46,date:'2026-02-01'},
+  {id:55,pid:86,cid:4,desc:'Transportation assistance',qty:20,unit:'rides',val:1820.00,date:'2026-01-10'},
+  {id:56,pid:86,cid:6,desc:'Employment skills bootcamp',qty:10,unit:'seats',val:1500.00,date:'2026-01-22'},
+  {id:57,pid:86,cid:4,desc:'Community wellness fair',qty:1,unit:'event',val:571.00,date:'2026-02-14'},
+  {id:58,pid:109,cid:4,desc:'Veteran peer connections',qty:15,unit:'matches',val:4748.95,date:'2025-12-05'},
+  {id:59,pid:109,cid:1,desc:'Life coaching sessions',qty:8,unit:'sessions',val:4748.94,date:'2026-01-08'},
+  {id:60,pid:140,cid:4,desc:'Grocery gift cards',qty:15,unit:'cards',val:1817.00,date:'2026-01-18'},
+];
+
+const PC = [ // partner-categories
+  {pid:1,cid:1},{pid:1,cid:8},{pid:2,cid:4},{pid:2,cid:6},{pid:3,cid:2},{pid:3,cid:3},
+  {pid:4,cid:5},{pid:4,cid:1},{pid:5,cid:6},{pid:5,cid:4},{pid:6,cid:5},{pid:6,cid:7},
+  {pid:7,cid:4},{pid:8,cid:3},{pid:8,cid:1},{pid:9,cid:1},{pid:9,cid:8},
+  {pid:10,cid:1},{pid:10,cid:3},{pid:11,cid:2},{pid:11,cid:3},{pid:14,cid:1},{pid:14,cid:4},{pid:14,cid:6},
+  {pid:31,cid:5},{pid:31,cid:3},{pid:58,cid:2},{pid:58,cid:1},{pid:58,cid:5},{pid:58,cid:3},
+  {pid:86,cid:4},{pid:86,cid:6},{pid:109,cid:4},{pid:109,cid:1},{pid:140,cid:4},
+];
+
+const PS = [ // partner-support
+  {pid:1,aid:1},{pid:1,aid:3},{pid:2,aid:2},{pid:2,aid:3},{pid:3,aid:1},{pid:3,aid:2},
+  {pid:4,aid:1},{pid:5,aid:3},{pid:5,aid:2},{pid:6,aid:1},{pid:7,aid:2},{pid:7,aid:3},
+  {pid:8,aid:1},{pid:8,aid:3},{pid:9,aid:1},{pid:9,aid:2},{pid:10,aid:1},{pid:10,aid:3},
+  {pid:11,aid:1},{pid:11,aid:2},{pid:14,aid:1},{pid:14,aid:2},{pid:14,aid:3},
+  {pid:43,aid:1},{pid:46,aid:1},{pid:49,aid:1},
+  {pid:58,aid:1},{pid:58,aid:2},{pid:58,aid:3},
+  {pid:86,aid:2},{pid:86,aid:3},{pid:109,aid:2},{pid:109,aid:3},{pid:140,aid:3},
+];
+
+// ═══════════════════════════════════════════════
+// COMPUTED / HELPERS
+// ═══════════════════════════════════════════════
+const fmtD = v => '$'+Number(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtK = v => v>=1000?'$'+(v/1000).toFixed(1)+'K':'$'+Math.round(v);
+const catCls = n=>({
+  'Daily Living Skills':'pg','Physical Abilities':'pn','Medical Needs':'pc',
+  'Social Support':'pt','Safety Considerations':'pc','Employment & Job Readiness':'pgr',
+  'Financial Assistance':'pg','Mental Health Support':'pt','Uncategorized':'pn'
+}[n]||'pn');
+
+function getCityStats(){
+  const m={};
+  PARTNERS.forEach(p=>{if(!m[p.city])m[p.city]={city:p.city,partners:0,val:0,svcs:0};m[p.city].partners++;});
+  SERVICES.forEach(s=>{const p=PARTNERS.find(x=>x.id===s.pid);if(p&&m[p.city]){m[p.city].val+=s.val;m[p.city].svcs++;}});
+  return Object.values(m).sort((a,b)=>b.val-a.val);
+}
+
+function getPartnerImpact(){
+  return PARTNERS.map(p=>{
+    const svcs=SERVICES.filter(s=>s.pid===p.id);
+    const cats=PC.filter(x=>x.pid===p.id).map(x=>CATS.find(c=>c.id===x.cid)?.name).filter(Boolean);
+    const areas=PS.filter(x=>x.pid===p.id).map(x=>AREAS.find(a=>a.id===x.aid)?.name).filter(Boolean);
+    const contact=CONTACTS.find(c=>c.pid===p.id);
+    return{...p,services:svcs.length,totalVal:svcs.reduce((a,s)=>a+s.val,0),cats,areas,contact,svcs};
+  }).sort((a,b)=>b.totalVal-a.totalVal);
+}
+
+function getCatStats(){
+  return CATS.map(c=>{
+    const svcs=SERVICES.filter(s=>s.cid===c.id);
+    const total=svcs.reduce((a,s)=>a+s.val,0);
+    return{...c,cnt:svcs.length,totalVal:total,avgVal:svcs.length?total/svcs.length:0};
+  }).sort((a,b)=>b.cnt-a.cnt);
+}
+
+function getAreaStats(){
+  return AREAS.map(a=>{
+    const pids=[...new Set(PS.filter(x=>x.aid===a.id).map(x=>x.pid))];
+    const svcs=SERVICES.filter(s=>pids.includes(s.pid));
+    return{...a,pCnt:pids.length,sCnt:svcs.length,totalVal:svcs.reduce((a,s)=>a+s.val,0)};
+  });
+}
+
+function getServiceRows(){
+  return SERVICES.map(s=>{
+    const p=PARTNERS.find(x=>x.id===s.pid);
+    const c=CATS.find(x=>x.id===s.cid);
+    return{...s,org:p?p.org:'Unknown',city:p?p.city:'',catName:c?c.name:'Uncategorized'};
+  }).sort((a,b)=>new Date(b.date)-new Date(a.date));
+}
+
+// ═══════════════════════════════════════════════
+// CANVAS CHARTS  (zero external dependencies)
+// ═══════════════════════════════════════════════
+const PAL=['#0b1f3a','#c9933a','#1a7a6e','#c4452e','#2d7a3a','#3d5068','#7a8fa6','#9b7dc0'];
+
+function drawBar(canvasId,labels,values,colors,fmtTip,onClickIdx){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.offsetWidth||cv.parentElement?.offsetWidth||400;
+  const H=parseInt(cv.getAttribute('height')||220);
+  cv.width=W*dpr;cv.height=H*dpr;
+  cv.style.width=W+'px';cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const PAD={t:10,r:10,b:50,l:60},w=W-PAD.l-PAD.r,h=H-PAD.t-PAD.b;
+  const max=Math.max(...values,1);
+  const bW=Math.min(40,w/labels.length-8);
+  ctx.clearRect(0,0,W,H);
+
+  // grid
+  for(let i=0;i<=4;i++){
+    const y=PAD.t+h-(h*i/4);
+    ctx.beginPath();ctx.strokeStyle='rgba(11,31,58,.06)';ctx.lineWidth=1;
+    ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+w,y);ctx.stroke();
+    ctx.fillStyle='#7a8fa6';ctx.font='10px system-ui';ctx.textAlign='right';
+    ctx.fillText(fmtK(max*i/4),PAD.l-5,y+3);
+  }
+
+  labels.forEach((lbl,i)=>{
+    const x=PAD.l+i*(w/labels.length)+w/(labels.length*2)-bW/2;
+    const bH=h*(values[i]/max);
+    const y=PAD.t+h-bH;
+    // bar
+    ctx.beginPath();
+    const r=4;
+    ctx.roundRect?ctx.roundRect(x,y,bW,bH,r):ctx.rect(x,y,bW,bH);
+    ctx.fillStyle=colors?colors[i]:PAL[i%PAL.length];ctx.fill();
+    // label
+    ctx.fillStyle='#7a8fa6';ctx.font='10px system-ui';ctx.textAlign='center';
+    const shortLbl=lbl.length>9?lbl.slice(0,8)+'…':lbl;
+    ctx.fillText(shortLbl,x+bW/2,H-PAD.b+14);
+    // value on top
+    ctx.fillStyle='#3d5068';ctx.font='bold 10px system-ui';
+    ctx.fillText(fmtK(values[i]),x+bW/2,y-4);
+  });
+
+  // click handler
+  if(onClickIdx){
+    cv._clickHandler&&cv.removeEventListener('click',cv._clickHandler);
+    cv._clickHandler=function(e){
+      const rect=cv.getBoundingClientRect();
+      const mx=(e.clientX-rect.left)*(W/rect.width);
+      labels.forEach((lbl,i)=>{
+        const x=PAD.l+i*(w/labels.length)+w/(labels.length*2)-bW/2;
+        if(mx>=x&&mx<=x+bW)onClickIdx(i);
+      });
+    };
+    cv.addEventListener('click',cv._clickHandler);
+    cv.style.cursor='pointer';
+  }
+}
+
+function drawDonut(canvasId,labels,values,colors){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const dpr=window.devicePixelRatio||1;
+  const S=170;
+  cv.width=S*dpr;cv.height=S*dpr;
+  cv.style.width=S+'px';cv.style.height=S+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const cx=S/2,cy=S/2,R=S/2-10,r=R*0.58;
+  const total=values.reduce((a,v)=>a+v,0)||1;
+  let ang=-Math.PI/2;
+  values.forEach((v,i)=>{
+    const sweep=(v/total)*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,R,ang,ang+sweep);ctx.closePath();
+    ctx.fillStyle=colors[i];ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.fillStyle='#fff';ctx.fill();
+    ang+=sweep;
+  });
+  // center text
+  ctx.fillStyle='#0b1f3a';ctx.font='bold 18px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(values.reduce((a,v)=>a+v,0),cx,cy-6);
+  ctx.fillStyle='#7a8fa6';ctx.font='9px system-ui';
+  ctx.fillText('services',cx,cy+8);
+}
+
+function drawLine(canvasId,labels,values){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.offsetWidth||cv.parentElement?.offsetWidth||400;
+  const H=parseInt(cv.getAttribute('height')||190);
+  cv.width=W*dpr;cv.height=H*dpr;
+  cv.style.width=W+'px';cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const PAD={t:14,r:14,b:44,l:58};
+  const w=W-PAD.l-PAD.r,h=H-PAD.t-PAD.b;
+  const max=Math.max(...values,1);
+  ctx.clearRect(0,0,W,H);
+
+  // area fill
+  ctx.beginPath();
+  values.forEach((v,i)=>{const x=PAD.l+(i/(labels.length-1||1))*w,y=PAD.t+h-(v/max)*h;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.lineTo(PAD.l+w,PAD.t+h);ctx.lineTo(PAD.l,PAD.t+h);ctx.closePath();
+  ctx.fillStyle='rgba(201,147,58,.08)';ctx.fill();
+
+  // line
+  ctx.beginPath();
+  values.forEach((v,i)=>{const x=PAD.l+(i/(labels.length-1||1))*w,y=PAD.t+h-(v/max)*h;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.strokeStyle='#c9933a';ctx.lineWidth=2;ctx.stroke();
+
+  // grid + labels
+  for(let i=0;i<=4;i++){
+    const y=PAD.t+h-(h*i/4);
+    ctx.beginPath();ctx.strokeStyle='rgba(11,31,58,.05)';ctx.lineWidth=1;
+    ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+w,y);ctx.stroke();
+    ctx.fillStyle='#7a8fa6';ctx.font='10px system-ui';ctx.textAlign='right';
+    ctx.fillText(fmtK(max*i/4),PAD.l-4,y+3);
+  }
+
+  // x labels
+  const step=Math.max(1,Math.ceil(labels.length/6));
+  labels.forEach((lbl,i)=>{
+    if(i%step!==0&&i!==labels.length-1)return;
+    const x=PAD.l+(i/(labels.length-1||1))*w;
+    ctx.fillStyle='#7a8fa6';ctx.font='9px system-ui';ctx.textAlign='center';
+    ctx.fillText(lbl,x,H-PAD.b+13);
+  });
+
+  // dots
+  values.forEach((v,i)=>{
+    const x=PAD.l+(i/(labels.length-1||1))*w,y=PAD.t+h-(v/max)*h;
+    ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);
+    ctx.fillStyle='#0b1f3a';ctx.fill();
+  });
+}
+
+function drawGroupedBar(canvasId,labels,ds1,ds2){
+  const cv=document.getElementById(canvasId);if(!cv)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.offsetWidth||cv.parentElement?.offsetWidth||400;
+  const H=parseInt(cv.getAttribute('height')||190);
+  cv.width=W*dpr;cv.height=H*dpr;
+  cv.style.width=W+'px';cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const PAD={t:24,r:80,b:50,l:54};
+  const w=W-PAD.l-PAD.r,h=H-PAD.t-PAD.b;
+  const max=Math.max(...ds1,...ds2,1);
+  const grpW=w/labels.length,bW=Math.min(18,grpW/3);
+  ctx.clearRect(0,0,W,H);
+
+  for(let i=0;i<=4;i++){
+    const y=PAD.t+h-(h*i/4);
+    ctx.beginPath();ctx.strokeStyle='rgba(11,31,58,.05)';ctx.lineWidth=1;
+    ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+w,y);ctx.stroke();
+    ctx.fillStyle='#7a8fa6';ctx.font='10px system-ui';ctx.textAlign='right';
+    ctx.fillText(fmtK(max*i/4),PAD.l-4,y+3);
+  }
+
+  labels.forEach((lbl,i)=>{
+    const cx=PAD.l+i*grpW+grpW/2;
+    // bar 1
+    const h1=h*(ds1[i]/max),y1=PAD.t+h-h1;
+    ctx.beginPath();ctx.roundRect?ctx.roundRect(cx-bW-2,y1,bW,h1,3):ctx.rect(cx-bW-2,y1,bW,h1);
+    ctx.fillStyle='#c9933a';ctx.fill();
+    // bar 2
+    const h2=h*(ds2[i]/max),y2=PAD.t+h-h2;
+    ctx.beginPath();ctx.roundRect?ctx.roundRect(cx+2,y2,bW,h2,3):ctx.rect(cx+2,y2,bW,h2);
+    ctx.fillStyle='#0b1f3a';ctx.fill();
+    // x label
+    const shortLbl=lbl.length>10?lbl.slice(0,9)+'…':lbl;
+    ctx.fillStyle='#7a8fa6';ctx.font='9px system-ui';ctx.textAlign='center';
+    ctx.save();ctx.translate(cx,H-PAD.b+8);ctx.rotate(-0.4);ctx.fillText(shortLbl,0,0);ctx.restore();
+  });
+
+  // legend
+  ctx.fillStyle='#c9933a';ctx.fillRect(W-PAD.r+4,PAD.t,10,10);
+  ctx.fillStyle='#3d5068';ctx.font='10px system-ui';ctx.textAlign='left';ctx.fillText('Avg',W-PAD.r+18,PAD.t+8);
+  ctx.fillStyle='#0b1f3a';ctx.fillRect(W-PAD.r+4,PAD.t+16,10,10);
+  ctx.fillStyle='#3d5068';ctx.fillText('Total',W-PAD.r+18,PAD.t+24);
+}
+
+// ═══════════════════════════════════════════════
+// PAGE STATE
+// ═══════════════════════════════════════════════
+const pState={search:'',city:'',area:'',sort:'value',dir:'desc',pg:1,pp:12};
+const sState={search:'',city:'',cat:'',sort:'date',dir:'desc',pg:1,pp:15};
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function nav(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-pill').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+page);
+  if(pg)pg.classList.add('active');
+  const btn=document.querySelector('.nav-pill[data-page="'+page+'"]');
+  if(btn)btn.classList.add('active');
+  if(page==='dashboard')renderDashboard();
+  if(page==='partners')renderPartners();
+  if(page==='services')renderServices();
+  if(page==='reports')renderReports();
+  window.scrollTo(0,56);
+}
+
+// ═══════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════
+function renderDashboard(){
+  const city=getCityStats();
+  const catS=getCatStats();
+  const areaS=getAreaStats();
+  const totVal=SERVICES.reduce((a,s)=>a+s.val,0);
+  const noSvc=PARTNERS.filter(p=>!SERVICES.find(s=>s.pid===p.id)).length;
+  const uncat=SERVICES.filter(s=>!s.cid).length;
+
+  // KPI
+  setText('kpi-partners',PARTNERS.length);
+  setText('kpi-contacts',CONTACTS.length);
+  setText('kpi-services',SERVICES.length);
+  setText('kpi-value',fmtK(totVal));
+  setText('kpi-cities',city.length);
+  setText('s-avg',fmtK(totVal/SERVICES.length));
+  setText('s-nosvcs',noSvc);
+  setText('s-uncat',uncat);
+  setText('catBadge',SERVICES.length+' Total');
+
+  // City bars (clickable rows)
+  const maxV=Math.max(...city.map(c=>c.val));
+  document.getElementById('cityBars').innerHTML=city.map(c=>`
+    <div class="cityrow" onclick="drillCity('${esc(c.city)}')">
+      <span class="cname">${c.city}</span>
+      <div class="ctrack"><div class="cfill" style="width:${(c.val/maxV*100).toFixed(1)}%"></div></div>
+      <span class="cval">${fmtK(c.val)}</span>
+      <span class="cpart">${c.partners} orgs</span>
+    </div>`).join('');
+
+  // Area bars
+  const maxA=Math.max(...areaS.map(a=>a.pCnt));
+  const aColors=['#0b1f3a','#c9933a','#1a7a6e'];
+  document.getElementById('areaBars').innerHTML=areaS.map((a,i)=>`
+    <div class="arearow">
+      <span class="aname" style="color:${aColors[i]}">${a.name}</span>
+      <div class="atrack"><div class="afill" style="width:${(a.pCnt/maxA*100).toFixed(1)}%;background:${aColors[i]}"></div></div>
+      <span class="acount">${a.pCnt}</span>
+      <span class="aval">${fmtK(a.totalVal)}</span>
+    </div>`).join('');
+
+  // Category legend
+  document.getElementById('catLegend').innerHTML=catS.map((c,i)=>`
+    <div class="legitem">
+      <div class="leswatch" style="background:${PAL[i%PAL.length]}"></div>
+      <span class="lelabel">${c.name}</span>
+      <span class="leval">${c.cnt}</span>
+    </div>`).join('');
+
+  // Charts (use requestAnimationFrame to ensure layout is done)
+  requestAnimationFrame(()=>{
+    drawBar('cityCanvas',city.slice(0,8).map(c=>c.city),city.slice(0,8).map(c=>c.val),
+      city.slice(0,8).map((_,i)=>i===0?'#c9933a':'#0b1f3a'),fmtK,i=>drillCity(city[i].city));
+    drawDonut('donutCanvas',catS.map(c=>c.name),catS.map(c=>c.cnt),PAL.slice(0,catS.length));
+
+    // Trend chart
+    const mMap={};
+    SERVICES.forEach(s=>{const m=s.date.slice(0,7);mMap[m]=(mMap[m]||0)+s.val;});
+    const months=Object.keys(mMap).sort();
+    const mLabels=months.map(m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1).toLocaleDateString('en-US',{month:'short',year:'2-digit'});});
+    drawLine('trendCanvas',mLabels,months.map(m=>mMap[m]));
+  });
+}
+
+function drillCity(city){
+  pState.city=city;pState.pg=1;
+  nav('partners');
+  showToast('Filtered to '+city+' partners');
+}
+
+// ═══════════════════════════════════════════════
+// PARTNERS PAGE
+// ═══════════════════════════════════════════════
+function renderPartners(){
+  // Populate filters
+  const cities=[...new Set(PARTNERS.map(p=>p.city))].sort();
+  const pCityEl=document.getElementById('pCity');
+  if(pCityEl&&pCityEl.children.length<=1){
+    cities.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;pCityEl.appendChild(o);});
+  }
+  if(pCityEl)pCityEl.value=pState.city;
+
+  const pAreaEl=document.getElementById('pArea');
+  if(pAreaEl&&pAreaEl.children.length<=1){
+    AREAS.forEach(a=>{const o=document.createElement('option');o.value=a.name;o.textContent=a.name;pAreaEl.appendChild(o);});
+  }
+  if(pAreaEl)pAreaEl.value=pState.area;
+
+  let data=getPartnerImpact().filter(p=>{
+    const q=pState.search.toLowerCase();
+    return(!q||p.org.toLowerCase().includes(q)||p.city.toLowerCase().includes(q)||p.cats.join(' ').toLowerCase().includes(q))
+      &&(!pState.city||p.city===pState.city)
+      &&(!pState.area||p.areas.includes(pState.area));
+  });
+
+  // sort
+  data.sort((a,b)=>{
+    const d=pState.dir==='asc'?1:-1;
+    if(pState.sort==='org')return d*a.org.localeCompare(b.org);
+    if(pState.sort==='city')return d*a.city.localeCompare(b.city);
+    if(pState.sort==='services')return d*(a.services-b.services);
+    return d*(a.totalVal-b.totalVal);
+  });
+
+  setText('pCnt',data.length);
+  setText('pTotVal',fmtK(data.reduce((a,p)=>a+p.totalVal,0)));
+
+  const total=data.length,pp=pState.pp;
+  const totalPg=Math.max(1,Math.ceil(total/pp));
+  pState.pg=Math.min(pState.pg,totalPg);
+  const slice=data.slice((pState.pg-1)*pp,pState.pg*pp);
+
+  const tbody=document.getElementById('pTbody');
+  if(!slice.length){
+    tbody.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="eico">🔍</div><div class="etitle">No partners found</div><div class="esub">Try adjusting your search or filters</div></div></td></tr>`;
+  } else {
+    tbody.innerHTML=slice.map((p,i)=>{
+      const g=(pState.pg-1)*pp+i+1;
+      const rc=g===1?'r1':g===2?'r2':g===3?'r3':'rn';
+      const cats=p.cats.slice(0,2).map(c=>`<span class="pill ${catCls(c)}">${c}</span>`).join(' ');
+      const areas=p.areas.slice(0,2).map(a=>`<span class="pill pn">${a.split(' ')[0]}</span>`).join(' ');
+      return `<tr onclick="openPartner(${p.id})">
+        <td style="padding-left:16px"><span class="rank ${rc}">${g}</span></td>
+        <td><strong style="font-size:12px">${p.org}</strong><div style="font-size:10px;color:var(--t3)">ID #${p.id}</div></td>
+        <td style="font-size:12px">${p.city}</td>
+        <td>${cats||'<span style="color:var(--t4);font-size:11px">—</span>'}</td>
+        <td>${areas||'<span style="color:var(--t4);font-size:11px">—</span>'}</td>
+        <td style="text-align:center;font-weight:700;font-size:12px">${p.services}</td>
+        <td style="text-align:right;font-weight:700;color:var(--navy);font-size:12px;padding-right:16px">${p.totalVal>0?fmtD(p.totalVal):'<span style="color:var(--t4);font-weight:400">$0.00</span>'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  renderPag('pPag',totalPg,pState.pg,p=>{pState.pg=p;renderPartners();});
+  updateSortTh('ptable',pState.sort,pState.dir);
+}
+
+function pSort(col){
+  if(pState.sort===col)pState.dir=pState.dir==='desc'?'asc':'desc';
+  else{pState.sort=col;pState.dir='desc';}
+  pState.pg=1;renderPartners();
+}
+
+function clearPFilters(){
+  pState.search='';pState.city='';pState.area='';pState.pg=1;
+  const ps=document.getElementById('pSearch');if(ps)ps.value='';
+  const pc=document.getElementById('pCity');if(pc)pc.value='';
+  const pa=document.getElementById('pArea');if(pa)pa.value='';
+  renderPartners();
+}
+
+// ═══════════════════════════════════════════════
+// PARTNER MODAL
+// ═══════════════════════════════════════════════
+function openPartner(id){
+  const p=getPartnerImpact().find(x=>x.id===id);if(!p)return;
+  const init=p.org.split(' ').pop().slice(0,2).toUpperCase();
+  document.getElementById('modalBox').innerHTML=`
+    <div class="mhead">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="mavatar">${init}</div>
+        <div>
+          <div style="font-size:17px;font-weight:800;color:var(--t1)">${p.org}</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">${p.city}, FL ${p.zip||''}</div>
+        </div>
+      </div>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="g3" style="gap:10px;margin-bottom:18px">
+        <div class="scard" style="text-align:center"><div class="slabel">Total Value</div><div class="svalue gold" style="font-size:20px">${fmtK(p.totalVal)}</div></div>
+        <div class="scard" style="text-align:center"><div class="slabel">Services</div><div class="svalue" style="font-size:20px">${p.services}</div></div>
+        <div class="scard" style="text-align:center"><div class="slabel">Support Areas</div><div class="svalue teal" style="font-size:20px">${p.areas.length}</div></div>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px">Organization Info</div>
+      <div class="drow"><span class="dkey">Address</span><span class="dval">${p.addr||'—'}, ${p.city}, FL ${p.zip||''}</span></div>
+      <div class="drow"><span class="dkey">Phone</span><span class="dval">${p.phone||'—'}</span></div>
+      ${p.contact?`
+      <div class="drow"><span class="dkey">Primary Contact</span><span class="dval"><strong>${p.contact.first} ${p.contact.last}</strong> · ${p.contact.title||''}</span></div>
+      <div class="drow"><span class="dkey">Email</span><span class="dval" style="color:var(--teal)">${p.contact.email||'—'}</span></div>
+      <div class="drow"><span class="dkey">Mobile</span><span class="dval">${p.contact.mobile||'—'}</span></div>`:''}
+      <div style="margin-top:16px;margin-bottom:8px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em">Service Categories</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">${p.cats.length?p.cats.map(c=>`<span class="pill ${catCls(c)}">${c}</span>`).join(''):'<span style="color:var(--t4);font-size:12px">None mapped</span>'}</div>
+      <div style="margin-top:14px;margin-bottom:8px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em">Support Areas</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">${p.areas.length?p.areas.map(a=>`<span class="pill pn">${a}</span>`).join(''):'<span style="color:var(--t4);font-size:12px">None mapped</span>'}</div>
+      ${p.svcs.length?`
+      <div style="margin-top:16px;margin-bottom:8px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em">Service Records (${p.svcs.length})</div>
+      <div style="border:1px solid var(--b1);border-radius:8px;overflow:hidden">
+        ${p.svcs.map((s,i)=>{const cat=CATS.find(c=>c.id===s.cid);return`<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;${i<p.svcs.length-1?'border-bottom:1px solid var(--b1)':''}">
+          <div style="flex:1"><div style="font-weight:700;font-size:12px">${s.desc}</div><div style="font-size:10px;color:var(--t3);margin-top:1px">${s.date} · ${s.qty} ${s.unit}${cat?' · '+cat.name:''}</div></div>
+          <div style="font-weight:700;color:var(--navy);font-size:12px">${fmtD(s.val)}</div>
+        </div>`;}).join('')}
+      </div>`:
+      `<div style="margin-top:14px;padding:12px;background:var(--s2);border-radius:8px;font-size:12px;color:var(--t3);text-align:center">No service records yet — consider outreach to activate this partner.</div>`}
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn bprimary bsm" onclick="closeModal()">Close</button>
+        <button class="btn bghost bsm" onclick="sState.search='${esc(p.org)}';closeModal();nav('services')">View Services ↗</button>
+      </div>
+    </div>`;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+
+// ═══════════════════════════════════════════════
+// SERVICES PAGE
+// ═══════════════════════════════════════════════
+function renderServices(){
+  // Populate filters once
+  const sCityEl=document.getElementById('sCity');
+  if(sCityEl&&sCityEl.children.length<=1){
+    [...new Set(PARTNERS.map(p=>p.city))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sCityEl.appendChild(o);});
+  }
+  if(sCityEl)sCityEl.value=sState.city;
+
+  const sCatEl=document.getElementById('sCat');
+  if(sCatEl&&sCatEl.children.length<=1){
+    CATS.forEach(c=>{const o=document.createElement('option');o.value=c.name;o.textContent=c.name;sCatEl.appendChild(o);});
+  }
+  if(sCatEl)sCatEl.value=sState.cat;
+
+  const sSearchEl=document.getElementById('sSearch');
+  if(sSearchEl&&sSearchEl.value!==sState.search)sSearchEl.value=sState.search;
+
+  let data=getServiceRows().filter(s=>{
+    const q=sState.search.toLowerCase();
+    return(!q||s.desc.toLowerCase().includes(q)||s.org.toLowerCase().includes(q)||s.catName.toLowerCase().includes(q)||s.city.toLowerCase().includes(q))
+      &&(!sState.city||s.city===sState.city)
+      &&(!sState.cat||s.catName===sState.cat);
+  });
+
+  data.sort((a,b)=>{
+    const d=sState.dir==='asc'?1:-1;
+    if(sState.sort==='org')return d*a.org.localeCompare(b.org);
+    if(sState.sort==='qty')return d*(a.qty-b.qty);
+    if(sState.sort==='value')return d*(a.val-b.val);
+    return d*(new Date(a.date)-new Date(b.date));
+  });
+
+  setText('sCnt',data.length);
+  setText('sTotVal',fmtK(data.reduce((a,s)=>a+s.val,0)));
+  setText('sTotQty',Math.round(data.reduce((a,s)=>a+s.qty,0)).toLocaleString());
+
+  const total=data.length,pp=sState.pp;
+  const totalPg=Math.max(1,Math.ceil(total/pp));
+  sState.pg=Math.min(sState.pg,totalPg);
+  const slice=data.slice((sState.pg-1)*pp,sState.pg*pp);
+
+  const tbody=document.getElementById('sTbody');
+  if(!slice.length){
+    tbody.innerHTML=`<tr><td colspan="8"><div class="empty"><div class="eico">📋</div><div class="etitle">No services found</div><div class="esub">Try adjusting your filters</div></div></td></tr>`;
+  } else {
+    tbody.innerHTML=slice.map(s=>`<tr onclick="pState.search='${esc(s.org)}';nav('partners')">
+      <td style="font-size:10px;color:var(--t3);padding-left:16px">#${s.id}</td>
+      <td style="max-width:180px"><strong style="font-size:12px">${s.desc}</strong></td>
+      <td style="font-size:11px">${s.org.replace('Community Partner ','CP ')}</td>
+      <td style="font-size:11px">${s.city}</td>
+      <td><span class="pill ${catCls(s.catName)}">${s.catName}</span></td>
+      <td style="font-size:12px">${s.qty} <span style="color:var(--t3)">${s.unit}</span></td>
+      <td style="font-size:11px;color:var(--t3)">${s.date}</td>
+      <td style="text-align:right;font-weight:700;color:var(--navy);font-size:12px;padding-right:16px">${fmtD(s.val)}</td>
+    </tr>`).join('');
+  }
+
+  renderPag('sPag',totalPg,sState.pg,p=>{sState.pg=p;renderServices();});
+  updateSortTh('stable',sState.sort,sState.dir);
+
+  // Category value chart
+  const catS=getCatStats().filter(c=>c.cnt>0);
+  requestAnimationFrame(()=>{
+    drawGroupedBar('catValCanvas',catS.map(c=>c.name),catS.map(c=>Math.round(c.avgVal)),catS.map(c=>Math.round(c.totalVal)));
+  });
+}
+
+function sSort(col){
+  if(sState.sort===col)sState.dir=sState.dir==='desc'?'asc':'desc';
+  else{sState.sort=col;sState.dir='desc';}
+  sState.pg=1;renderServices();
+}
+
+function clearSFilters(){
+  sState.search='';sState.city='';sState.cat='';sState.pg=1;
+  const ss=document.getElementById('sSearch');if(ss)ss.value='';
+  const sc=document.getElementById('sCity');if(sc)sc.value='';
+  const st=document.getElementById('sCat');if(st)st.value='';
+  renderServices();
+}
+
+// ═══════════════════════════════════════════════
+// REPORTS PAGE
+// ═══════════════════════════════════════════════
+const QUERIES=[
+  {num:1,title:'High-Value Services in Fort Myers',
+   biz:'Fort Myers partners delivering services valued above $3,000 — top contributors in the region.',
+   sql:`<span class="kw">SELECT</span> p.org_name, s.service_desc,\n       s.est_value_usd, s.service_date\n<span class="kw">FROM</span> partners p\n<span class="kw">JOIN</span> services s <span class="kw">ON</span> p.partner_id = s.partner_id\n<span class="kw">WHERE</span> p.city = <span class="str">'Fort Myers'</span>\n  <span class="kw">AND</span> s.est_value_usd > 3000\n<span class="kw">ORDER BY</span> s.est_value_usd <span class="kw">DESC</span>;`,
+   run:()=>getServiceRows().filter(s=>s.city==='Fort Myers'&&s.val>3000).sort((a,b)=>b.val-a.val).slice(0,6).map(s=>({Organization:s.org,Service:s.desc,Value:fmtD(s.val),Date:s.date}))},
+  {num:2,title:'High-Density Cities by Service Value',
+   biz:'Cities anchored by 10 or more partner organizations, ranked by total service value delivered.',
+   sql:`<span class="kw">SELECT</span> p.city, <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> p.partner_id) <span class="kw">AS</span> num_partners,\n       <span class="fn">SUM</span>(s.est_value_usd) <span class="kw">AS</span> total_service_value\n<span class="kw">FROM</span> partners p\n<span class="kw">JOIN</span> services s <span class="kw">ON</span> p.partner_id = s.partner_id\n<span class="kw">GROUP BY</span> p.city\n<span class="kw">HAVING</span> <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> p.partner_id) > 10\n<span class="kw">ORDER BY</span> total_service_value <span class="kw">DESC</span>;`,
+   run:()=>getCityStats().filter(c=>c.partners>10).map(c=>({City:c.city,'# Partners':c.partners,'Total Value':fmtK(c.val)}))},
+  {num:3,title:'Service Volume by Category',
+   biz:'Service volume, total quantity, and average impact value broken out by category.',
+   sql:`<span class="kw">SELECT</span> <span class="fn">COALESCE</span>(cat.category_name,<span class="str">'Uncategorized'</span>) <span class="kw">AS</span> category,\n       <span class="fn">COUNT</span>(*) <span class="kw">AS</span> num_services,\n       <span class="fn">ROUND</span>(<span class="fn">SUM</span>(s.quantity),2) <span class="kw">AS</span> total_qty,\n       <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.est_value_usd),2) <span class="kw">AS</span> avg_value\n<span class="kw">FROM</span> services s\n<span class="kw">LEFT JOIN</span> categories cat <span class="kw">ON</span> s.category_id = cat.category_id\n<span class="kw">GROUP BY</span> cat.category_name\n<span class="kw">ORDER BY</span> num_services <span class="kw">DESC</span>;`,
+   run:()=>getCatStats().filter(c=>c.cnt>0).map(c=>({Category:c.name,Services:c.cnt,'Avg Value':fmtD(c.avgVal),'Total Value':fmtK(c.totalVal)}))},
+  {num:4,title:'Partners Delivering Above-Average Impact',
+   biz:'Partners with at least one service exceeding the network-wide average value — high-leverage contributors.',
+   sql:`<span class="kw">SELECT</span> p.partner_id, p.org_name, p.city\n<span class="kw">FROM</span> partners p\n<span class="kw">WHERE EXISTS</span> (\n  <span class="kw">SELECT</span> 1 <span class="kw">FROM</span> services s\n  <span class="kw">WHERE</span> s.partner_id = p.partner_id\n    <span class="kw">AND</span> s.est_value_usd > (<span class="kw">SELECT</span> <span class="fn">AVG</span>(est_value_usd) <span class="kw">FROM</span> services)\n)\n<span class="kw">ORDER BY</span> p.partner_id <span class="kw">LIMIT</span> 10;`,
+   run:()=>{const avg=SERVICES.reduce((a,s)=>a+s.val,0)/SERVICES.length;const pids=new Set(SERVICES.filter(s=>s.val>avg).map(s=>s.pid));return PARTNERS.filter(p=>pids.has(p.id)).slice(0,10).map(p=>({ID:p.id,Organization:p.org,City:p.city}));}},
+  {num:5,title:'Functioning Partners Awaiting Activation',
+   biz:'Functioning support-area partners not yet recorded as delivering services — primary outreach list.',
+   sql:`<span class="kw">SELECT</span> p.partner_id, p.org_name, p.city\n<span class="kw">FROM</span> partners p\n<span class="kw">WHERE</span> p.partner_id <span class="kw">IN</span> (\n  <span class="kw">SELECT</span> ps.partner_id <span class="kw">FROM</span> partner_support ps\n  <span class="kw">JOIN</span> support_areas sa <span class="kw">ON</span> ps.area_id = sa.area_id\n  <span class="kw">WHERE</span> sa.area_name = <span class="str">'Functioning'</span>\n)\n<span class="kw">AND</span> p.partner_id <span class="kw">NOT IN</span> (<span class="kw">SELECT</span> s.partner_id <span class="kw">FROM</span> services s)\n<span class="kw">ORDER BY</span> p.partner_id;`,
+   run:()=>{const fids=PS.filter(x=>x.aid===1).map(x=>x.pid);const wsvcs=new Set(SERVICES.map(s=>s.pid));return PARTNERS.filter(p=>fids.includes(p.id)&&!wsvcs.has(p.id)).map(p=>({ID:p.id,Organization:p.org,City:p.city}));}},
+  {num:6,title:'Top 5 Partners by Total Service Value',
+   biz:'The five partners contributing the highest total service value, with the variety of services each delivers.',
+   sql:`<span class="kw">SELECT</span> ranked.org_name, ranked.total_value, ranked.num_service_types\n<span class="kw">FROM</span> (\n  <span class="kw">SELECT</span> p.org_name, <span class="fn">SUM</span>(s.est_value_usd) <span class="kw">AS</span> total_value,\n         <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> s.service_desc) <span class="kw">AS</span> num_service_types\n  <span class="kw">FROM</span> partners p\n  <span class="kw">JOIN</span> services s <span class="kw">ON</span> p.partner_id = s.partner_id\n  <span class="kw">GROUP BY</span> p.org_name\n) ranked\n<span class="kw">ORDER BY</span> ranked.total_value <span class="kw">DESC LIMIT</span> 5;`,
+   run:()=>getPartnerImpact().filter(p=>p.services>0).slice(0,5).map(p=>({Organization:p.org,'Total Value':fmtD(p.totalVal),'Service Types':p.services}))},
+  {num:7,title:'2026 Service Activity by Month',
+   biz:'Year-to-date 2026 service deliveries with partner, month, description, and rounded impact value.',
+   sql:`<span class="kw">SELECT</span> <span class="fn">UPPER</span>(p.org_name) <span class="kw">AS</span> partner_upper,\n       <span class="fn">TO_CHAR</span>(s.service_date,<span class="str">'Month YYYY'</span>) <span class="kw">AS</span> service_month,\n       s.service_desc,\n       <span class="fn">ROUND</span>(s.est_value_usd) <span class="kw">AS</span> rounded_value\n<span class="kw">FROM</span> services s\n<span class="kw">JOIN</span> partners p <span class="kw">ON</span> s.partner_id = p.partner_id\n<span class="kw">WHERE</span> <span class="fn">EXTRACT</span>(<span class="kw">YEAR FROM</span> s.service_date) = 2026\n<span class="kw">ORDER BY</span> s.service_date <span class="kw">LIMIT</span> 10;`,
+   run:()=>getServiceRows().filter(s=>s.date.startsWith('2026')).slice(0,10).map(s=>{const d=new Date(s.date);return{Partner:s.org.toUpperCase(),'Month':d.toLocaleDateString('en-US',{month:'long',year:'numeric'}),Service:s.desc,Value:'$'+Math.round(s.val)}})},
+  {num:8,title:'Partner Impact Summary',
+   biz:'A consolidated roll-up of total service count and estimated value for every partner organization.',
+   sql:`<span class="kw">CREATE OR REPLACE VIEW</span> partner_impact_summary <span class="kw">AS</span>\n<span class="kw">SELECT</span> p.partner_id, p.org_name, p.city,\n       <span class="fn">COUNT</span>(s.service_id) <span class="kw">AS</span> total_services,\n       <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(s.est_value_usd),0) <span class="kw">AS</span> total_value\n<span class="kw">FROM</span> partners p\n<span class="kw">LEFT JOIN</span> services s <span class="kw">ON</span> p.partner_id = s.partner_id\n<span class="kw">GROUP BY</span> p.partner_id, p.org_name, p.city;\n\n<span class="cm">-- Usage:</span>\n<span class="kw">SELECT</span> * <span class="kw">FROM</span> partner_impact_summary <span class="kw">ORDER BY</span> total_value <span class="kw">DESC LIMIT</span> 10;`,
+   run:()=>getPartnerImpact().slice(0,10).map(p=>({ID:p.id,Organization:p.org,City:p.city,Services:p.services,'Total Value':fmtD(p.totalVal)}))},
+  {num:9,title:'City-Level Impact Lookup',
+   biz:'Select a city to see every partner active there alongside their service count and total value.',
+   sql:`<span class="kw">CREATE OR REPLACE FUNCTION</span> <span class="fn">get_city_impact</span>(target_city <span class="kw">VARCHAR</span>)\n<span class="kw">RETURNS TABLE</span>(partner_id <span class="kw">INT</span>, org_name <span class="kw">VARCHAR</span>, total_services <span class="kw">BIGINT</span>, total_value <span class="kw">NUMERIC</span>) <span class="kw">AS</span> $$\n<span class="kw">BEGIN</span>\n  <span class="kw">RETURN QUERY</span>\n  <span class="kw">SELECT</span> p.partner_id, p.org_name,\n         <span class="fn">COUNT</span>(s.service_id), <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(s.est_value_usd),0)\n  <span class="kw">FROM</span> partners p\n  <span class="kw">LEFT JOIN</span> services s <span class="kw">ON</span> p.partner_id = s.partner_id\n  <span class="kw">WHERE</span> p.city = target_city\n  <span class="kw">GROUP BY</span> p.partner_id, p.org_name\n  <span class="kw">ORDER BY</span> total_value <span class="kw">DESC</span>;\n<span class="kw">END</span>;\n$$ <span class="kw">LANGUAGE</span> plpgsql;\n\n<span class="cm">-- Usage:</span>\n<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="fn">get_city_impact</span>(<span class="str">'Fort Myers'</span>);`,
+   hasInput:true,
+   run:(city)=>getPartnerImpact().filter(p=>p.city===city).slice(0,10).map(p=>({ID:p.id,Organization:p.org,Services:p.services,'Total Value':fmtD(p.totalVal)}))},
+];
+
+function renderReports(){
+  // Query accordion
+  document.getElementById('queryList').innerHTML=QUERIES.map(q=>`
+    <div class="qcard" id="qc${q.num}">
+      <div class="qhead" onclick="toggleQ(${q.num})">
+        <div><div class="qtitle">Report ${q.num} &middot; ${q.title}</div><div class="qsub">${q.biz}</div></div>
+        <span id="qi${q.num}" style="font-size:18px;color:var(--t3);transition:transform .2s">›</span>
+      </div>
+      <div class="qbody" id="qb${q.num}">
+        <div class="qinner">
+          <pre class="code">${q.sql}</pre>
+          ${q.hasInput?`<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+            <label style="font-size:12px;font-weight:700;color:var(--t2)">City:</label>
+            <select class="fsel" id="qi_sel${q.num}" onchange="runQ(${q.num})">
+              ${getCityStats().map(c=>`<option value="${c.city}">${c.city}</option>`).join('')}
+            </select>
+          </div>`:''}
+          <button class="btn bprimary bsm" onclick="runQ(${q.num})" style="margin-bottom:10px">▶ Run Report</button>
+          <div id="qr${q.num}"></div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Schema grid
+  const tables=[
+    ['partners','partner_id (PK), org_name, address, city, state, zip, office_phone'],
+    ['contacts','contact_id (PK), partner_id (FK), first_name, last_name, title, position, mobile_phone, email UNIQUE'],
+    ['categories','category_id (PK), category_name UNIQUE'],
+    ['support_areas','area_id (PK), area_name UNIQUE'],
+    ['services','service_id (PK), partner_id (FK), category_id (FK opt.), service_desc, quantity, unit_type, est_value_usd, service_date'],
+    ['partner_categories','partner_id (PK,FK), category_id (PK,FK)'],
+    ['partner_support','partner_id (PK,FK), area_id (PK,FK)'],
+    ['category_area_map','category_id (PK,FK), area_id (PK,FK)'],
+  ];
+  document.getElementById('schemaGrid').innerHTML=tables.map(([n,c])=>`
+    <div class="schema-item">
+      <div class="schema-name">${n}</div>
+      <div class="schema-cols">${c}</div>
+    </div>`).join('');
+}
+
+function toggleQ(num){
+  const body=document.getElementById('qb'+num);
+  const icon=document.getElementById('qi'+num);
+  const open=body.classList.toggle('open');
+  icon.style.transform=open?'rotate(90deg)':'';
+  if(open)runQ(num);
+}
+
+function runQ(num){
+  const q=QUERIES.find(x=>x.num===num);if(!q)return;
+  const sel=document.getElementById('qi_sel'+num);
+  const rows=q.run(sel?sel.value:'Fort Myers');
+  const el=document.getElementById('qr'+num);if(!el)return;
+  if(!rows||!rows.length){el.innerHTML='<p style="font-size:12px;color:var(--t3)">No results.</p>';return;}
+  const cols=Object.keys(rows[0]);
+  el.innerHTML=`<div style="border:1px solid var(--b2);border-radius:8px;overflow:hidden;font-size:12px">
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:var(--s2)">${cols.map(c=>`<th style="text-align:left;padding:7px 12px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--b1)">${c}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map((r,i)=>`<tr style="${i%2===1?'background:var(--s2)':''}">${cols.map(c=>`<td style="padding:7px 12px;border-bottom:1px solid var(--b1)">${r[c]??'—'}</td>`).join('')}</tr>`).join('')}</tbody>
+    </table>
+  </div>
+  <div style="font-size:10px;color:var(--t3);margin-top:5px">${rows.length} row${rows.length!==1?'s':''} returned</div>`;
+}
+
+// ═══════════════════════════════════════════════
+// AI INSIGHT
+// ═══════════════════════════════════════════════
+async function genAI(mode){
+  const isR=mode==='r';
+  const btn=document.getElementById(isR?'aiBtnR':'aiBtn');
+  const out=document.getElementById(isR?'aiOutR':'aiOut');
+  if(!btn||!out)return;
+  btn.disabled=true;btn.textContent='Analyzing…';
+  out.innerHTML='<em style="opacity:.5">Generating insight from partner data…</em>';
+  const totVal=SERVICES.reduce((a,s)=>a+s.val,0);
+  const city=getCityStats();
+  const noSvc=PARTNERS.filter(p=>!SERVICES.find(s=>s.pid===p.id)).length;
+  const top=getPartnerImpact().filter(p=>p.services>0)[0];
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
+        system:'Strategic analyst for a veteran-support nonprofit. Use HTML <strong> tags for key numbers. Be direct and concise — 3 specific insights focused on partner impact, activation gaps, and regional opportunities. No preamble.',
+        messages:[{role:'user',content:`Partner data: ${PARTNERS.length} orgs, ${SERVICES.length} services, $${Math.round(totVal).toLocaleString()} total value, ${city.length} cities. Top city: ${city[0]?.city} ($${Math.round(city[0]?.val).toLocaleString()}, ${city[0]?.partners} partners). ${noSvc} partners with 0 services. Top partner: ${top?.org} $${top?.totalVal.toFixed(0)}. Provide 3 strategic priorities.`}]})
+    });
+    const d=await r.json();
+    out.innerHTML=d.content?.find(b=>b.type==='text')?.text||fallbackAI(city,noSvc,totVal,top);
+  }catch{out.innerHTML=fallbackAI(city,noSvc,totVal,top);}
+  btn.disabled=false;btn.innerHTML='✦ '+(isR?'Regenerate':'Generate Insight');
+}
+
+function fallbackAI(city,noSvc,totVal,top){
+  return `<strong>${city[0]?.city}</strong> leads with ${fmtK(city[0]?.val||0)} in service value across ${city[0]?.partners||0} partners — a strong regional hub worth deepening through co-programming and referral agreements.<br><br><strong>${noSvc} partners</strong> (${Math.round(noSvc/PARTNERS.length*100)}% of the network) are mapped to support areas but have delivered zero services — targeted outreach to these organizations is the highest-leverage activation opportunity.<br><br><strong>Data quality:</strong> Some service records lack category tags, which reduces reporting clarity for stakeholder presentations. A one-time categorization sprint would unlock more precise impact analytics across all 8 service dimensions.`;
+}
+
+// ═══════════════════════════════════════════════
+// CSV EXPORT
+// ═══════════════════════════════════════════════
+function exportCSV(type){
+  let rows,fn;
+  if(type==='partners'){
+    const d=getPartnerImpact();
+    rows=[['ID','Organization','City','ZIP','Phone','Services','Total Value','Categories','Support Areas'],
+      ...d.map(p=>[p.id,p.org,p.city,p.zip||'',p.phone||'',p.services,p.totalVal.toFixed(2),p.cats.join('; '),p.areas.join('; ')])];
+    fn='community-bridge-partners.csv';
+  }else{
+    const d=getServiceRows();
+    rows=[['ID','Partner','City','Category','Description','Qty','Unit','Value','Date'],
+      ...d.map(s=>[s.id,s.org,s.city,s.catName,s.desc,s.qty,s.unit,s.val.toFixed(2),s.date])];
+    fn='community-bridge-services.csv';
+  }
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=fn;a.click();
+  showToast('Exported '+fn);
+}
+
+// ═══════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════
+function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+function esc(s){return String(s).replace(/'/g,"\\'");}
+function showToast(msg){
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML='<div class="tdot"></div>'+msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
+}
+function renderPag(id,total,cur,onPage){
+  const el=document.getElementById(id);if(!el)return;
+  if(total<=1){el.innerHTML='';return;}
+  let btns='';
+  for(let i=1;i<=Math.min(total,7);i++){
+    btns+=`<button class="pbtn ${i===cur?'cur':''}" onclick="(${onPage.toString()})(${i})">${i}</button>`;
+  }
+  if(total>7)btns+=`<span style="font-size:11px;color:var(--t3);padding:0 3px">…${total}</span>`;
+  el.innerHTML=`
+    <button class="pbtn" onclick="(${onPage.toString()})(${Math.max(1,cur-1)})" ${cur===1?'disabled':''}>‹</button>
+    ${btns}
+    <button class="pbtn" onclick="(${onPage.toString()})(${Math.min(total,cur+1)})" ${cur===total?'disabled':''}>›</button>
+    <span class="pinfo">Page ${cur} of ${total}</span>`;
+}
+function updateSortTh(tableId,col,dir){
+  const t=document.getElementById(tableId);if(!t)return;
+  t.querySelectorAll('th[data-col]').forEach(th=>{
+    const s=th.querySelector('.si');
+    th.classList.toggle('sorted',th.dataset.col===col);
+    if(s)s.textContent=th.dataset.col===col?(dir==='asc'?'↑':'↓'):'↕';
+  });
+}
+
+// Keyboard ESC closes modal
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// Handle window resize — redraw charts
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{
+    const pg=document.querySelector('.page.active');
+    if(pg?.id==='page-dashboard')renderDashboard();
+    if(pg?.id==='page-services')renderServices();
+  },200);
+});
+
+// ── INIT ──
+renderDashboard();
+</script>
+</body>
+</html>
